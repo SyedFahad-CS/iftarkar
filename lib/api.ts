@@ -134,8 +134,29 @@ async function fetchMonthTimings(
     `?latitude=${LATITUDE}&longitude=${LONGITUDE}&method=${method}`;
 
   console.log(`  Fetching ${url}`);
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
+
+  // Rate limiting: wait 1s between requests
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  let res;
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      res = await fetch(url);
+      if (res.status === 429) {
+        console.warn(`  ⚠️ HTTP 429 (Too Many Requests). Waiting 5s... (Attempt ${attempt}/3)`);
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+        continue;
+      }
+      if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
+      break;
+    } catch (e: any) {
+      if (attempt === 3) throw e;
+      console.warn(`  ⚠️ Error fetching: ${e.message}. Retrying in 2s...`);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+    }
+  }
+
+  if (!res || !res.ok) throw new Error(`Failed to fetch ${url} after retries`);
   const json = await res.json();
 
   const result: Record<string, { fajr: string; maghrib: string }> = {};
