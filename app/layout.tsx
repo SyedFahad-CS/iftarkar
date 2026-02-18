@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import React from "react";
 import { Amiri, Plus_Jakarta_Sans, Roboto_Mono } from "next/font/google";
@@ -10,6 +10,21 @@ export const metadata: Metadata = {
   title: "Iftarkar",
   description:
     "Iftarkar is your companion app for Ramzan. Daily Countdown Timer, Iftar and Sehri Timings for Jammu, Kashmir, Kargil and Ladakh.",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Iftarkar",
+  },
+  formatDetection: {
+    telephone: false,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#f0ebe3",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 const jakarta = Plus_Jakarta_Sans({
