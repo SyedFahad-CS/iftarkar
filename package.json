@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-    "prebuild": "ts-node ./lib/api.ts",
     "build": "next build --webpack",
     "start": "next start",
     "lint": "next lint",
