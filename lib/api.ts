@@ -58,7 +58,7 @@ const METHOD_CONFIGS: Record<string, MethodConfig> = {
       { name: "Kupwara", offset: -7 },
       { name: "Bandipora", offset: -3 },
       { name: "Ganderbal", offset: -1 },
-      { name: "Pulwama", offset: 2 },
+      { name: "Pulwama", offset: -2 },
       { name: "Shopian", offset: 3 },
       { name: "Kulgam", offset: 4 },
       { name: "Anantnag", offset: 3 },
