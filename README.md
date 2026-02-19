@@ -1,36 +1,94 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🌙 Iftarkar
 
-## Getting Started
+**Iftarkar** is a modern, beautiful, and easy-to-use Ramadan timings application designed for the region of Kashmir. It provides accurate Sehri and Iftar timings for various districts and follows multiple schools of thought (Fiqh).
 
-First, run the development server:
+Built with **Next.js**, **Tailwind CSS**, and **TypeScript**, Iftarkar focuses on performance, aesthetics, and usability.
+
+![Iftarkar Preview](/open-graph.png)
+
+## ✨ Features
+
+- **📍 Location-Based Timings**: accurate schedules for all major districts in Kashmir (Srinagar, Budgam, Baramulla, etc.).
+- **📅 Multiple Calendars**: Supports varying schools of thought:
+  - **Hanafi**: Dar-ul-uloom Raheemiya
+  - **Jaffaria**: Educational Trust Kashmir (ETK)
+  - **Ahle Hadees**: Jamiat Ahle Hadees J&K
+- **🎨 Print-Friendly**: Generate beautiful, high-quality printable calendars directly from the browser.
+- **📥 Export Options**:
+  - **iCal**: Download calendar files (`.ics`) to import into Google Calendar or Apple Calendar.
+  - **PDF**: Save the monthly schedule as a PDF/Image.
+- **📱 PWA Support**: Installable as a native-like app on Android and iOS.
+- **⚡ Offline Ready**: Works seamlessly without an internet connection once loaded.
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js](https://nextjs.org/) (React)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Icons**: [FontAwesome](https://fontawesome.com/)
+- **Date Handling**: [Luxon](https://moment.github.io/luxon/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (v18 or newer)
+- npm or yarn
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/SyedFahad-CS/iftarkar.git
+   cd iftarkar
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open in browser:**
+   Navigate to [http://localhost:3000](http://localhost:3000) to see the app running.
+
+## 📅 Data Source
+
+The application uses **hardcoded timings** for maximum reliability during the holy month.
+- Data is stored in: `data/timings.json`
+- This ensures that even if external APIs go down, the users always have access to the correct schedule.
+
+## 📦 Build & Deployment
+
+To build the application for production:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This generates a static/optimized build in the `.next` folder. The app is optimized for deployment on platforms like **Vercel** or **Netlify**.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🤝 Contributing
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Contributions are welcome! If you find a bug or want to add a new feature:
 
-## Learn More
+1. Fork the repository.
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
+4. Push to the branch (`git push origin feature/AmazingFeature`).
+5. Open a Pull Request.
 
-To learn more about Next.js, take a look at the following resources:
+## 📜 License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This project is open-source and available under the [MIT License](LICENSE).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## ❤️ Credits
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- **Original Idea & Development**: [Haider Ali Punjabi](https://haider.id)
+- **Maintainer**: Syed Fahad
