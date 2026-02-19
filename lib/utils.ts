@@ -13,17 +13,23 @@ export function getTimes() {
     !Object.keys(Settings.timings).includes(tomorrow) ||
     !Object.keys(Settings.timings).includes(yesterday)
   ) {
-    Settings.method = Object.keys(timings)[0];
-    return;
+    // Fallback or error handling if data is missing, though we expect it to be there for 2026
+    console.warn("Missing timing data for one of the required days.");
   }
+
   // @ts-ignore
   const timingsToday = Settings.timings[today];
   // @ts-ignore
-  const timingsTomorrow = Settings.timings[tomorrow];
+  const timingsTomorrow = Settings.timings[tomorrow] || timingsToday;
   // @ts-ignore
-  const timingsYesterday = Settings.timings[yesterday];
+  const timingsYesterday = Settings.timings[yesterday] || timingsToday;
+
+  // If today is missing, we can't do much (unless we want to find the nearest date, but let's assume today matches)
+  if (!timingsToday) return;
+
   const offset = Duration.fromObject({ minute: Settings.offset });
   const sehriOffset = Duration.fromObject({ minute: Settings.sehriOffet });
+
   const sehriToday = DateTime.fromFormat(timingsToday.fajr, "H:mm")
     .plus(offset)
     .plus(sehriOffset);
