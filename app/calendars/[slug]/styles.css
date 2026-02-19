@@ -4,6 +4,11 @@
 }
 
 @media print {
+  body:not(.print-bw) {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
   body.print-bw * {
     color: black !important;
     background-color: white !important;
@@ -21,6 +26,10 @@
   main {
     @apply mt-4 w-full gap-y-2 px-8;
     max-width: 100% !important;
+  }
+
+  body::after {
+    display: none !important;
   }
 
   table {

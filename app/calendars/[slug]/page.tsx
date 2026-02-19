@@ -56,7 +56,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           Download PDF
         </a>
         <ICalModal
-          name={timings[slug as TimingKeys].name}
+          name={slug}
           offsets={offsets}
         />
       </div>
