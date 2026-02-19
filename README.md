@@ -4,7 +4,7 @@
 
 Built with **Next.js**, **Tailwind CSS**, and **TypeScript**, Iftarkar focuses on performance, aesthetics, and usability.
 
-![Iftarkar Preview](/open-graph.png)
+![Iftarkar Preview]("https://res.cloudinary.com/dhwrnmpds/image/upload/v1771484035/homescreeb_b6t82l.jpg")
 
 ## ✨ Features
 
