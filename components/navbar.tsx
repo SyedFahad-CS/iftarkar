@@ -7,8 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
   faTimes,
-  faHome,
-  faMobileAlt,
+  faHouse,
+  faMobileScreenButton,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function Navbar() {
@@ -55,14 +55,14 @@ export default function Navbar() {
               href="/"
               className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-ink-secondary transition-colors hover:bg-bg-warm hover:text-ink"
             >
-              <FontAwesomeIcon icon={faHome} className="w-3.5" />
+              <FontAwesomeIcon icon={faHouse} className="w-3.5" />
               Home
             </Link>
             <Link
               href="https://haider.id/namazpar"
               className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-ink-secondary transition-colors hover:bg-bg-warm hover:text-ink"
             >
-              <FontAwesomeIcon icon={faMobileAlt} className="w-3.5" />
+              <FontAwesomeIcon icon={faMobileScreenButton} className="w-3.5" />
               NamazPar App
             </Link>
           </div>
@@ -89,7 +89,7 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(false)}
                 className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-ink-secondary transition-colors hover:bg-bg-warm hover:text-ink"
               >
-                <FontAwesomeIcon icon={faHome} className="w-4" />
+                <FontAwesomeIcon icon={faHouse} className="w-4" />
                 Home
               </Link>
               <Link
@@ -97,7 +97,7 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(false)}
                 className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-ink-secondary transition-colors hover:bg-bg-warm hover:text-ink"
               >
-                <FontAwesomeIcon icon={faMobileAlt} className="w-4" />
+                <FontAwesomeIcon icon={faMobileScreenButton} className="w-4" />
                 Download NamazPar App
               </Link>
             </div>

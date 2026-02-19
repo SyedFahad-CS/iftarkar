@@ -43,17 +43,20 @@ export function getTimes() {
       previous: iftarYesterday,
       next: sehriToday,
       label: "Sehri",
+      phase: "PRE_SEHRI",
     };
   if (now <= iftarToday)
     return {
       previous: sehriToday,
       next: iftarToday,
       label: "Iftar",
+      phase: "FASTING",
     };
   return {
     previous: iftarToday,
     next: sehriTomorrow,
     label: "Sehri",
+    phase: "POST_IFTAR",
   };
 }
 

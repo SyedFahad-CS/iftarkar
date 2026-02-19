@@ -14,6 +14,7 @@ export default function Timer() {
   const [upcomingLabel, setUpcomingLabel] = useState("");
   const [progress, setProgress] = useState(0);
   const [settingsHidden, setSettingsHidden] = useState(true);
+  const [phase, setPhase] = useState("");
   const [methodLabel, setMethodLabel] = useState("");
   const [offsetLabel, setOffsetLabel] = useState("");
 
@@ -22,6 +23,7 @@ export default function Timer() {
     if (!times) return;
     setTimeEnd(times.next);
     setUpcomingLabel(times.label);
+    setPhase(times.phase);
     setTimeLeft(times.next.diffNow(["days", "hours", "minutes", "second"]));
     setProgress(
       (times.previous.diffNow().milliseconds * -100) /
@@ -33,12 +35,44 @@ export default function Timer() {
     setMethodLabel(Settings.methodLabel);
     setOffsetLabel(Settings.offsetLabel);
     calculate();
-    setInterval(() => {
+    const interval = setInterval(() => {
       calculate();
     }, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const isSehri = upcomingLabel === "Sehri";
+
+  const getPhaseConfig = () => {
+    switch (phase) {
+      case "PRE_SEHRI":
+        return {
+          left: { label: "Suhoor Time", isNext: false },
+          right: { label: "⏳ Fast Begins In", isNext: true },
+          banner: "Fast Begins In",
+        };
+      case "FASTING":
+        return {
+          left: { label: "Fasting", isNext: false },
+          right: { label: "🌇 Iftar In", isNext: true },
+          banner: "Iftar In",
+        };
+      case "POST_IFTAR":
+        return {
+          left: { label: "🌄 Suhoor In", isNext: true },
+          right: { label: "Iftar Time", isNext: false },
+          banner: "Suhoor In",
+        };
+      default:
+        return {
+          left: { label: "Sehri", isNext: isSehri },
+          right: { label: "Iftar", isNext: !isSehri },
+          banner: isSehri ? "Sehri ends in" : "Iftar in",
+        };
+    }
+  };
+
+  const config = getPhaseConfig();
 
   return (
     <>
@@ -67,11 +101,11 @@ export default function Timer() {
           {/* Sehri card */}
           <div
             className={`card relative overflow-hidden p-5 transition-all duration-300 ${
-              isSehri ? "shadow-card-active" : ""
+              config.left.isNext ? "shadow-card-active" : ""
             }`}
           >
             <div className="mb-3 flex items-center gap-2">
-              {isSehri ? (
+              {config.left.isNext ? (
                 <span className="rounded-full bg-accent-light px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-widest text-accent">
                   Next
                 </span>
@@ -88,25 +122,25 @@ export default function Timer() {
               )}
             </div>
             <p className="text-xl font-extrabold tracking-tight text-ink">
-              Sehri
+              {config.left.label}
             </p>
             <p
               className={`mt-1 font-mono text-sm font-semibold tabular-nums ${
-                isSehri ? "text-ink" : "text-ink-muted"
+                config.left.isNext ? "text-ink" : "text-ink-muted"
               }`}
             >
-              {isSehri ? timeEnd?.toFormat("h:mm a") : "—"}
+              {config.left.isNext ? timeEnd?.toFormat("h:mm a") : "—"}
             </p>
           </div>
 
           {/* Iftar card */}
           <div
             className={`card relative overflow-hidden p-5 transition-all duration-300 ${
-              !isSehri ? "shadow-card-active" : ""
+              config.right.isNext ? "shadow-card-active" : ""
             }`}
           >
             <div className="mb-3 flex items-center gap-2">
-              {!isSehri ? (
+              {config.right.isNext ? (
                 <span className="rounded-full bg-accent-light px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-widest text-accent">
                   Next
                 </span>
@@ -123,14 +157,14 @@ export default function Timer() {
               )}
             </div>
             <p className="text-xl font-extrabold tracking-tight text-ink">
-              Iftar
+              {config.right.label}
             </p>
             <p
               className={`mt-1 font-mono text-sm font-semibold tabular-nums ${
-                !isSehri ? "text-ink" : "text-ink-muted"
+                config.right.isNext ? "text-ink" : "text-ink-muted"
               }`}
             >
-              {!isSehri ? timeEnd?.toFormat("h:mm a") : "—"}
+              {config.right.isNext ? timeEnd?.toFormat("h:mm a") : "—"}
             </p>
           </div>
         </div>
@@ -160,7 +194,7 @@ export default function Timer() {
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-300" />
               </span>
               <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-emerald-200/80">
-                {upcomingLabel === "Sehri" ? "Sehri ends in" : "Iftar in"}
+                {config.banner}
               </p>
             </div>
 
