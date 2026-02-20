@@ -18,6 +18,8 @@ export default function Timer() {
   const [methodLabel, setMethodLabel] = useState("");
   const [offsetLabel, setOffsetLabel] = useState("");
 
+  const [mounted, setMounted] = useState(false);
+
   const calculate = () => {
     const times = getTimes();
     if (!times) return;
@@ -35,6 +37,7 @@ export default function Timer() {
     setMethodLabel(Settings.methodLabel);
     setOffsetLabel(Settings.offsetLabel);
     calculate();
+    setMounted(true);
     const interval = setInterval(() => {
       calculate();
     }, 1000);
@@ -59,9 +62,9 @@ export default function Timer() {
         };
       case "POST_IFTAR":
         return {
-          left: { label: "🌄 Suhoor In", isNext: true },
+          left: { label: "🌄 Suhoor Ends At", isNext: true },
           right: { label: "Iftar Time", isNext: false },
-          banner: "Suhoor In",
+          banner: "Suhoor Ends In",
         };
       default:
         return {
@@ -74,11 +77,29 @@ export default function Timer() {
 
   const config = getPhaseConfig();
 
+  // Skeleton UI for hydration safety
+  if (!mounted) {
+    return (
+      <div className="w-full space-y-4 animate-pulse">
+        <div className="flex items-center justify-between px-1 h-9 mb-1">
+            <div className="w-32 h-4 bg-border/40 rounded"></div>
+            <div className="w-9 h-9 bg-border/20 rounded-lg"></div>
+        </div>
+        <div className="grid grid-cols-2 gap-3 h-[120px]">
+            <div className="card border border-border/20 opacity-40 bg-card rounded-2xl h-full"></div>
+            <div className="card shadow-card-active rounded-2xl h-full border border-border/5"></div>
+        </div>
+        <div className="min-h-[16px]"></div>
+        <div className="h-[188px] rounded-2xl bg-gradient-to-br from-[#0f4a2c]/50 to-[#1a7a4e]/50 opacity-50 relative overflow-hidden"></div>
+      </div>
+    );
+  }
+
   return (
     <>
-      <div className="w-full animate-fade-up space-y-4">
+      <div className="w-full animate-fade-up space-y-4 min-h-[380px]">
         {/* Header bar */}
-        <div className="flex items-center justify-between px-1">
+        <div className="flex items-center justify-between px-1 h-9 mb-1">
           <div>
             <p className="text-[15px] font-bold tracking-tight text-ink">
               {methodLabel}
@@ -97,10 +118,10 @@ export default function Timer() {
         </div>
 
         {/* Prayer cards row */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-3 h-[120px]">
           {/* Sehri card */}
           <div
-            className={`card relative overflow-hidden p-5 transition-all duration-300 ${
+            className={`card relative overflow-hidden p-5 transition-all duration-300 h-full w-full ${
               config.left.isNext ? "shadow-card-active" : ""
             }`}
           >
@@ -111,21 +132,21 @@ export default function Timer() {
                 </span>
               ) : (
                 <>
-                  <span className="rounded-full bg-orange-light px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-widest text-orange">
+                  <span className="rounded-full bg-orange-light px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-widest text-orange transition-opacity">
                     Now
                   </span>
                   <FontAwesomeIcon
                     icon={faCheckCircle}
-                    className="text-[15px] text-accent"
+                    className="text-[15px] text-accent animate-in zoom-in"
                   />
                 </>
               )}
             </div>
-            <p className="text-xl font-extrabold tracking-tight text-ink">
+            <p className="text-[1.15rem] leading-tight font-extrabold tracking-tight text-ink line-clamp-1">
               {config.left.label}
             </p>
             <p
-              className={`mt-1 font-mono text-sm font-semibold tabular-nums ${
+              className={`mt-[6px] font-mono text-sm font-semibold tabular-nums ${
                 config.left.isNext ? "text-ink" : "text-ink-muted"
               }`}
             >
@@ -135,7 +156,7 @@ export default function Timer() {
 
           {/* Iftar card */}
           <div
-            className={`card relative overflow-hidden p-5 transition-all duration-300 ${
+            className={`card relative overflow-hidden p-5 transition-all duration-300 h-full w-full ${
               config.right.isNext ? "shadow-card-active" : ""
             }`}
           >
@@ -146,21 +167,21 @@ export default function Timer() {
                 </span>
               ) : (
                 <>
-                  <span className="rounded-full bg-orange-light px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-widest text-orange">
+                  <span className="rounded-full bg-orange-light px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-widest text-orange transition-opacity">
                     Now
                   </span>
                   <FontAwesomeIcon
                     icon={faCheckCircle}
-                    className="text-[15px] text-accent"
+                    className="text-[15px] text-accent animate-in zoom-in"
                   />
                 </>
               )}
             </div>
-            <p className="text-xl font-extrabold tracking-tight text-ink">
+            <p className="text-[1.15rem] leading-tight font-extrabold tracking-tight text-ink line-clamp-1">
               {config.right.label}
             </p>
             <p
-              className={`mt-1 font-mono text-sm font-semibold tabular-nums ${
+              className={`mt-[6px] font-mono text-sm font-semibold tabular-nums ${
                 config.right.isNext ? "text-ink" : "text-ink-muted"
               }`}
             >
@@ -169,25 +190,27 @@ export default function Timer() {
           </div>
         </div>
 
-        {/* Notes */}
-        {Settings.method == "etk" && (
-          <p className="px-1 text-xs font-medium text-ink-muted">
-            Sehri ends 10 minutes before Fajr for ahtiyat.
-          </p>
-        )}
-        {Settings.method == "ajksa" && (
-          <p className="px-1 text-xs font-medium text-ink-muted">
-            Sehri ends 5 minutes before Fajr for ahtiyat.
-          </p>
-        )}
+        {/* Notes Container (Fixed Height) */}
+        <div className="min-h-[16px] flex items-center">
+            {Settings.method == "etk" && (
+            <p className="px-1 text-xs font-medium text-ink-muted animate-fade-in">
+                Sehri ends 10 minutes before Fajr for ahtiyat.
+            </p>
+            )}
+            {Settings.method == "ajksa" && (
+            <p className="px-1 text-xs font-medium text-ink-muted animate-fade-in">
+                Sehri ends 5 minutes before Fajr for ahtiyat.
+            </p>
+            )}
+        </div>
 
         {/* Countdown card */}
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#0f4a2c] via-[#145e3a] to-[#1a7a4e] p-6 shadow-[0_4px_24px_rgba(15,74,44,0.3)]">
+        <div className="relative overflow-hidden rounded-[1.25rem] bg-gradient-to-br from-[#0f4a2c] via-[#145e3a] to-[#1a7a4e] p-6 shadow-[0_4px_24px_rgba(15,74,44,0.3)] h-[188px] flex flex-col justify-center">
           {/* Decorative radial glow */}
           <div className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-white/5 blur-2xl" />
           <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-white/5 blur-2xl" />
           
-          <div className="relative flex flex-col items-center">
+          <div className="relative flex flex-col items-center z-10">
             <div className="flex items-center gap-2">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-75" />
@@ -210,7 +233,7 @@ export default function Timer() {
                   return (
                     <div
                       key={i}
-                      className={`h-2 flex-1 rounded-[2px] transition-all duration-500 ${
+                      className={`h-2 flex-1 rounded-[2px] transition-all duration-500 ease-in-out ${
                         filled
                           ? "bg-emerald-300 shadow-[0_0_4px_rgba(110,231,183,0.3)]"
                           : "bg-white/10"
